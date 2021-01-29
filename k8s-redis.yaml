@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: {{env("REPLICAS", "1")}}
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          volumeMounts:
+          - name: redis-pv-claim-name
+            mountPath: /data
+      volumes:
+        - name: redis-pv-claim-name
+          persistentVolumeClaim:
+            claimName: redis-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  #labels:
+  #  app: redis
+spec:
+  selector:
+    app: redis
+  ports:
+    - name: redis-port
+      protocol: TCP
+      port: 6379 # Port on LoadBalancer
+      targetPort: 6379 # Port on Pod
+  type: {{env("SERVICE_TYPE", "ClusterIP")}}
+  #type: ClusterIP # IP available only inside cluster (IP also resolved by Service.name)
+  #type: LoadBalancer # without cloud provider just exposes service to localhost
+  #type: NodePort # exposes ports to random ports on node(localhost)
+  #type: ExternalName
+  #externalName: my.redis.com
