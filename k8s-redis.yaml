@@ -16,10 +16,10 @@ spec:
         - name: redis
           image: redis
           volumeMounts:
-          - name: redis-pv-claim-name
+          - name: redis-pv-claim-volume
             mountPath: /data
       volumes:
-        - name: redis-pv-claim-name
+        - name: redis-pv-claim-volume
           persistentVolumeClaim:
             claimName: redis-pv-claim
 ---
