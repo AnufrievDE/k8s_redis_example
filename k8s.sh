@@ -4,7 +4,7 @@ case $1 in
     start)
         set -o allexport; . .env; set +o allexport
         j2 k8s-storage.yaml > k8s.yaml
-        echo "\n---" >> k8s.yaml
+        printf "\n---\n" >> k8s.yaml
         j2 k8s-redis.yaml >> k8s.yaml
         kubectl apply -f k8s.yaml
     ;;
