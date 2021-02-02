@@ -2,7 +2,7 @@
 # overrides env variables, produces k8s.yaml kubernetes config file
 case $1 in
     start)
-        set -o allexport; . .env; set +o allexport
+        set -o allexport; . ./.env; set +o allexport
         j2 k8s-storage.yaml > k8s.yaml
         printf "\n---\n" >> k8s.yaml
         j2 k8s-redis.yaml >> k8s.yaml
