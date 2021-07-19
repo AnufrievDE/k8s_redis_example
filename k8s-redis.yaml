@@ -15,6 +15,7 @@ spec:
       containers:
         - name: redis
           image: redis
+          imagePullPolicy: IfNotPresent #Never #Always
           volumeMounts:
           - name: redis-pv-claim-volume
             mountPath: /data
